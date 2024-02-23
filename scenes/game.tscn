@@ -1,6 +1,89 @@
-[gd_scene load_steps=2 format=3 uid="uid://b7b75ifj6odqs"]
+[gd_scene load_steps=7 format=3 uid="uid://b7b75ifj6odqs"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ub7gt"]
+[ext_resource type="Script" path="res://scripts/bg.gd" id="2_d2uo3"]
+[ext_resource type="Texture2D" uid="uid://d01kqampkoudw" path="res://assets/zone_1/back.png" id="3_5mvxg"]
+[ext_resource type="PackedScene" uid="uid://c55fr06bgopw2" path="res://scenes/player.tscn" id="3_fbhvb"]
+[ext_resource type="Texture2D" uid="uid://c43qoqkywput2" path="res://assets/zone_1/middle.png" id="4_m0303"]
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q42cq"]
+size = Vector2(1284, 186)
+
+[node name="Game" type="Node2D"]
 script = ExtResource("1_ub7gt")
+
+[node name="BG" type="ParallaxBackground" parent="."]
+script = ExtResource("2_d2uo3")
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="BG"]
+motion_mirroring = Vector2(1280, 0)
+
+[node name="Back" type="Sprite2D" parent="BG/ParallaxLayer"]
+position = Vector2(640, 359.5)
+scale = Vector2(3.33333, 2.99583)
+texture = ExtResource("3_5mvxg")
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="BG"]
+motion_scale = Vector2(0.5, 1)
+motion_mirroring = Vector2(1293, 0)
+
+[node name="Middle" type="Sprite2D" parent="BG/ParallaxLayer2"]
+position = Vector2(114, 447)
+scale = Vector2(1.29545, 1.47826)
+texture = ExtResource("4_m0303")
+
+[node name="Middle2" type="Sprite2D" parent="BG/ParallaxLayer2"]
+position = Vector2(330, 447)
+scale = Vector2(1.29545, 1.47826)
+texture = ExtResource("4_m0303")
+
+[node name="Middle3" type="Sprite2D" parent="BG/ParallaxLayer2"]
+position = Vector2(548, 447)
+scale = Vector2(1.29545, 1.47826)
+texture = ExtResource("4_m0303")
+
+[node name="Middle4" type="Sprite2D" parent="BG/ParallaxLayer2"]
+position = Vector2(764, 447)
+scale = Vector2(1.29545, 1.47826)
+texture = ExtResource("4_m0303")
+
+[node name="Middle5" type="Sprite2D" parent="BG/ParallaxLayer2"]
+position = Vector2(977, 447)
+scale = Vector2(1.29545, 1.47826)
+texture = ExtResource("4_m0303")
+
+[node name="Middle6" type="Sprite2D" parent="BG/ParallaxLayer2"]
+position = Vector2(1193, 447)
+scale = Vector2(1.29545, 1.47826)
+texture = ExtResource("4_m0303")
+
+[node name="Player" parent="." instance=ExtResource("3_fbhvb")]
+position = Vector2(430, 415)
+speed = 200.0
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
+remote_path = NodePath("../../Camera2D")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(643, 624)
+shape = SubResource("RectangleShape2D_q42cq")
+
+[node name="Panel" type="Panel" parent="."]
+offset_top = 529.0
+offset_right = 1283.0
+offset_bottom = 718.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(430, 415)
+zoom = Vector2(1.5, 1.5)
+process_callback = 0
+limit_left = 0
+limit_top = 0
+limit_bottom = 720
+position_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+drag_top_margin = 0.15
+drag_bottom_margin = 0.15
