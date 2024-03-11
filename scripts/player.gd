@@ -1,9 +1,12 @@
 extends CharacterBody2D
 class_name Player
 
-@export var speed : float = 300.0
-@export var jump_velocity : float = -500.0
+@export var inertia : float = 1.0
+@export var maxSpeed : float = 300.0
+@export var jump_velocity : float = 500.0
+@export var wall_jump_angle : float = 90
 @export var flight_offset : int
+@export var time_off_wall : float = 0.1
 
 @onready var animated_sprite : AnimatedSprite2D = $AnimatedSprite2D
 @onready var animation_tree : AnimationTree = $AnimationTree
@@ -12,26 +15,28 @@ class_name Player
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var animation_locked : bool = false
 var direction : Vector2 = Vector2.ZERO
+var collision = null
+var friction_accel : float = 0
 
 func _ready():
 	animation_tree.active = true
-
 func _physics_process(delta):
 	# Add the gravity
 	if not is_on_floor():
 		velocity.y += gravity * delta
-		
-	# Handle Jump.
-	if Input.is_action_just_pressed("jump") and is_on_floor():
-		pass
+		if friction_accel:
+			velocity.y = move_toward(velocity.y, 0, friction_accel * delta)
 	
 	direction = Input.get_vector("left", "right","up","down")
 	if direction.x != 0 && state_machine.check_if_can_move():
-		velocity.x = direction.x * speed
+		velocity.x = move_toward(velocity.x, direction.x * maxSpeed, maxSpeed*(delta/(1.0000001-inertia)))
 	else:
-		velocity.x = move_toward(velocity.x, 0, speed)
+		velocity.x = move_toward(velocity.x, 0, maxSpeed*(delta/(1.0000001-inertia)))
 		
 	move_and_slide()
+	for i in get_slide_collision_count():
+		collision = get_slide_collision(i)
+		#print(collision.get_collider().physics)
 	update_animation()
 	update_facing_direction()
 	

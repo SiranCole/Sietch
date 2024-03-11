@@ -9,7 +9,7 @@ class_name PlayerStateMachine
 var states : Array[State]
 
 func _ready():
-	for child in get_children():
+	for child in get_tree().get_nodes_in_group("player_states"):
 		if (child is State):
 			states.append(child)
 			
