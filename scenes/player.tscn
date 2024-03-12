@@ -416,7 +416,7 @@ inertia = 0.86
 jumpTimeToPeak = 0.4
 jumpTimeToDescend = 0.3
 wallJumpAngle = 70.0
-flightOffset = 100
+flightTime = 0.44
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, 0.5)

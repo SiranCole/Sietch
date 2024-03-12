@@ -7,7 +7,7 @@ class_name Player
 @export var jumpTimeToPeak : float = 0.5
 @export var jumpTimeToDescend : float = 0.4
 @export var wallJumpAngle : float = 90
-@export var flightOffset : int
+@export var flightTime : float = 0.42
 @export var timeOffWall : float = 0.1
 
 @onready var animatedSprite : AnimatedSprite2D = $AnimatedSprite2D
@@ -18,10 +18,13 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var jumpVelocity : float = (2.0 * jumpHeight) / jumpTimeToPeak
 @onready var jumpGravity : float = ((-2.0 * jumpHeight) / (jumpTimeToPeak * jumpTimeToPeak)) * -1.0
 @onready var fallGravity : float = ((-2.0 * jumpHeight) / (jumpTimeToDescend * jumpTimeToDescend)) * -1.0
+@onready var flightOffsetAscend : float = jumpGravity * (flightTime * fallGravity / (jumpGravity + fallGravity))
+@onready var flightOffsetDescend : float = fallGravity * (flightTime * jumpGravity / (jumpGravity + fallGravity))
 var animationLocked : bool = false
 var direction : Vector2 = Vector2.ZERO
 var collision = null
 var frictionAccel : float = 0
+
 
 func _ready():
 	animationTree.active = true
@@ -58,9 +61,9 @@ func update_facing_direction():
 		animatedSprite.flip_h = true
 		
 func get_jump_phase():
-	if velocity.y < -flightOffset:
+	if velocity.y < -flightOffsetAscend:
 		return -1
-	elif velocity.y > flightOffset:
+	elif velocity.y > flightOffsetDescend:
 		return 1
 	else:
 		return 0
@@ -70,5 +73,6 @@ func _testing_update_jump_parameters():
 	jumpVelocity = (2.0 * jumpHeight) / jumpTimeToPeak
 	jumpGravity = ((-2.0 * jumpHeight) / (jumpTimeToPeak * jumpTimeToPeak)) * -1.0
 	fallGravity = ((-2.0 * jumpHeight) / (jumpTimeToDescend * jumpTimeToDescend)) * -1.0
-		
+	flightOffsetAscend = jumpGravity * (flightTime * fallGravity / (jumpGravity + fallGravity))
+	flightOffsetDescend = fallGravity * (flightTime * jumpGravity / (jumpGravity + fallGravity))
 
