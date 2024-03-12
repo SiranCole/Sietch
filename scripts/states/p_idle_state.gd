@@ -1,10 +1,10 @@
 extends OnGroundState
 class_name IdleState
 
-@export var run_state : State
+@export var runState : State
 
 func _ready():
-	add_to_group("player_states")
+	add_to_group("PLAYER_STATES")
 	
 func on_enter():
 	pass
@@ -12,7 +12,7 @@ func on_enter():
 func state_process(delta):
 	super(delta)
 	if character.direction.x != 0 and character.is_on_floor():
-		next_state = run_state
+		nextState = runState
 func state_input(event : InputEvent):
 	super(event)
 	

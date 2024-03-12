@@ -2,11 +2,11 @@ extends State
 
 class_name LandingState
 
-@export var landing_animation_name : String = "landing"
-@export var ground_state: State
+@export var landingAnimationName : String = "landing"
+@export var idleState: State
 
 func _ready():
-	add_to_group("player_states")
+	add_to_group("PLAYER_STATES")
 
 func on_enter():
 	pass
@@ -14,6 +14,6 @@ func on_enter():
 func on_exit():
 	pass
 
-func _on_animation_tree_animation_finished(anim_name):
-	if anim_name == landing_animation_name:
-		next_state = ground_state
+func _on_animation_tree_animation_finished(animName):
+	if animName == landingAnimationName:
+		nextState = idleState

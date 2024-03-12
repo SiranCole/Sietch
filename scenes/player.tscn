@@ -413,10 +413,10 @@ graph_offset = Vector2(-140.603, -39)
 collision_mask = 5
 script = ExtResource("1_ivf7q")
 inertia = 0.86
-jump_time_to_peak = 0.4
-jump_time_to_descend = 0.3
-wall_jump_angle = 75.0
-flight_offset = 150
+jumpTimeToPeak = 0.4
+jumpTimeToDescend = 0.3
+wallJumpAngle = 70.0
+flightOffset = 100
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, 0.5)
@@ -443,41 +443,40 @@ anim_player = NodePath("../AnimationPlayer")
 parameters/Jump/blend_position = 0
 parameters/Move/blend_position = -0.283465
 
-[node name="PlayerStateMachine" type="Node" parent="." node_paths=PackedStringArray("character", "animation_tree", "current_state")]
+[node name="PlayerStateMachine" type="Node" parent="." node_paths=PackedStringArray("character", "animationTree", "currentState")]
 script = ExtResource("20_w53dy")
 character = NodePath("..")
-animation_tree = NodePath("../AnimationTree")
-current_state = NodePath("OnGround")
+animationTree = NodePath("../AnimationTree")
+currentState = NodePath("OnGround/Idle")
 
-[node name="OnGround" type="Node" parent="PlayerStateMachine" node_paths=PackedStringArray("inair_state")]
+[node name="OnGround" type="Node" parent="PlayerStateMachine" node_paths=PackedStringArray("inAirState")]
 script = ExtResource("27_nis2e")
-inair_state = NodePath("../InAir")
+inAirState = NodePath("../InAir")
 
-[node name="Idle" type="Node" parent="PlayerStateMachine/OnGround" node_paths=PackedStringArray("run_state", "inair_state")]
+[node name="Idle" type="Node" parent="PlayerStateMachine/OnGround" node_paths=PackedStringArray("runState", "inAirState")]
 script = ExtResource("22_0dsml")
-run_state = NodePath("../Run")
-inair_state = NodePath("../../InAir")
+runState = NodePath("../Run")
+inAirState = NodePath("../../InAir")
 
-[node name="Run" type="Node" parent="PlayerStateMachine/OnGround" node_paths=PackedStringArray("idle_state", "inair_state")]
+[node name="Run" type="Node" parent="PlayerStateMachine/OnGround" node_paths=PackedStringArray("idleState", "inAirState")]
 script = ExtResource("23_ugqnj")
-idle_state = NodePath("../Idle")
-inair_state = NodePath("../../InAir")
+idleState = NodePath("../Idle")
+inAirState = NodePath("../../InAir")
 
-[node name="InAir" type="Node" parent="PlayerStateMachine" node_paths=PackedStringArray("idle_state", "onwall_state")]
+[node name="InAir" type="Node" parent="PlayerStateMachine" node_paths=PackedStringArray("idleState", "onWallState")]
 script = ExtResource("30_t0kmw")
-idle_state = NodePath("../OnGround/Idle")
-onwall_state = NodePath("../OnWall")
+idleState = NodePath("../OnGround/Idle")
+onWallState = NodePath("../OnWall")
 
-[node name="Landing" type="Node" parent="PlayerStateMachine" node_paths=PackedStringArray("ground_state")]
+[node name="Landing" type="Node" parent="PlayerStateMachine" node_paths=PackedStringArray("idleState")]
 script = ExtResource("25_6tu8r")
-landing_animation_name = "jump_end"
-ground_state = NodePath("../OnGround")
+idleState = NodePath("../OnGround/Idle")
 
-[node name="OnWall" type="Node" parent="PlayerStateMachine" node_paths=PackedStringArray("idle_state", "inair_state")]
+[node name="OnWall" type="Node" parent="PlayerStateMachine" node_paths=PackedStringArray("idleState", "inAirState")]
 script = ExtResource("32_x8mpm")
-idle_state = NodePath("../OnGround/Idle")
-inair_state = NodePath("../InAir")
-friction_accel = 3000.0
+idleState = NodePath("../OnGround/Idle")
+inAirState = NodePath("../InAir")
+frictionAccel = 3000.0
 
 [node name="StateDebugLabel" type="Label" parent="." node_paths=PackedStringArray("player")]
 offset_left = -58.0

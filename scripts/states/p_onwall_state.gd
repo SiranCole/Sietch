@@ -1,27 +1,27 @@
 extends State
 class_name OnWallState
 
-@export var idle_state : State
-@export var inair_state : State
-@export var jump_animation : String = "Jump"
-@export var move_animation : String = "Move"
-@export var friction_accel : float
-var wall_direction : int
+@export var idleState : State
+@export var inAirState : State
+@export var jumpAnimation : String = "Jump"
+@export var moveAnimation : String = "Move"
+@export var frictionAccel : float
+var wallDirection : int
 
 
 func _ready():
-	add_to_group("player_states")
+	add_to_group("PLAYER_STATES")
 	
 func on_enter():
 	update_wall_contact()
 
 func state_process(delta):
 	if character.is_on_floor():
-		next_state = idle_state
-		playback.travel(move_animation)
-	elif not character.is_on_wall() or (!Input.is_action_pressed("left") and wall_direction==-1) or (!Input.is_action_pressed("right") and wall_direction==1):
-		next_state = inair_state
-		playback.travel(jump_animation)
+		nextState = idleState
+		playback.travel(moveAnimation)
+	elif not character.is_on_wall() or (!Input.is_action_pressed("left") and wallDirection==-1) or (!Input.is_action_pressed("right") and wallDirection==1):
+		nextState = inAirState
+		playback.travel(jumpAnimation)
 		return
 	else:
 		update_wall_contact()
@@ -34,23 +34,23 @@ func state_input(event : InputEvent):
 		jump(event)
 	
 func on_exit():
-	inair_state.time_off_wall = character.time_off_wall
-	character.friction_accel = 0
+	inAirState.timeOffWall = character.timeOffWall
+	character.frictionAccel = 0
 
 func jump(event):
-	var wall_jump_angle_in_rads = deg_to_rad(character.wall_jump_angle)
-	character.velocity.y =  -sin(wall_jump_angle_in_rads) * character.jump_velocity
-	character.velocity.x = cos(wall_jump_angle_in_rads) * character.jump_velocity * -wall_direction
-	next_state = inair_state
-	playback.travel(jump_animation)
+	var wallJumpAngleInRads = deg_to_rad(character.wallJumpAngle)
+	character.velocity.y =  -sin(wallJumpAngleInRads) * character.jumpVelocity
+	character.velocity.x = cos(wallJumpAngleInRads) * character.jumpVelocity * -wallDirection
+	nextState = inAirState
+	playback.travel(jumpAnimation)
 
 func update_wall_contact():
-	var normal_x = character.collision.get_normal().x
-	if normal_x > 0:
-		wall_direction = -1
-	elif normal_x < 0:
-		wall_direction = 1
+	var normalX = character.collision.get_normal().x
+	if normalX > 0:
+		wallDirection = -1
+	elif normalX < 0:
+		wallDirection = 1
 	else:
-		wall_direction = 0
+		wallDirection = 0
 		
-	character.friction_accel = friction_accel
+	character.frictionAccel = frictionAccel
