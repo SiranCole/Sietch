@@ -413,10 +413,10 @@ graph_offset = Vector2(-140.603, -39)
 collision_mask = 5
 script = ExtResource("1_ivf7q")
 inertia = 0.86
-maxSpeed = 200.0
-jump_velocity = 450.0
-wall_jump_angle = 60.0
-flight_offset = 100
+jump_time_to_peak = 0.4
+jump_time_to_descend = 0.3
+wall_jump_angle = 75.0
+flight_offset = 150
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, 0.5)
@@ -477,7 +477,7 @@ ground_state = NodePath("../OnGround")
 script = ExtResource("32_x8mpm")
 idle_state = NodePath("../OnGround/Idle")
 inair_state = NodePath("../InAir")
-friction_accel = 1500.0
+friction_accel = 3000.0
 
 [node name="StateDebugLabel" type="Label" parent="." node_paths=PackedStringArray("player")]
 offset_left = -58.0

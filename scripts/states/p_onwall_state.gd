@@ -39,8 +39,8 @@ func on_exit():
 
 func jump(event):
 	var wall_jump_angle_in_rads = deg_to_rad(character.wall_jump_angle)
-	character.velocity.y -=  sin(wall_jump_angle_in_rads) * character.jump_velocity
-	character.velocity.x += cos(wall_jump_angle_in_rads) * character.jump_velocity * -wall_direction
+	character.velocity.y =  -sin(wall_jump_angle_in_rads) * character.jump_velocity
+	character.velocity.x = cos(wall_jump_angle_in_rads) * character.jump_velocity * -wall_direction
 	next_state = inair_state
 	playback.travel(jump_animation)
 

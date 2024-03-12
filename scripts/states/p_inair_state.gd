@@ -32,4 +32,4 @@ func on_exit():
 	pass
 	
 func jump(event):
-	character.velocity.y = -character.jump_velocity
+	character.velocity.y -= character.jump_velocity
